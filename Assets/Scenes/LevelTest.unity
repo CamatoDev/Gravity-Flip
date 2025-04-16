@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 231802197}
   - component: {fileID: 231802196}
   - component: {fileID: 231802195}
+  - component: {fileID: 231802199}
   m_Layer: 0
   m_Name: Dynamic Obstacle
   m_TagString: Untagged
@@ -332,6 +333,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &231802199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231802194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e360393d56eae4590d69bad24a611c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 0
+  minDistance: 0
+  offset: 2
+  cooldown: 2
 --- !u!1 &263101087
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,6 +1154,7 @@ GameObject:
   - component: {fileID: 834096271}
   - component: {fileID: 834096270}
   - component: {fileID: 834096269}
+  - component: {fileID: 834096273}
   m_Layer: 0
   m_Name: Dynamic bridge
   m_TagString: Untagged
@@ -1230,6 +1248,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &834096273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834096268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc2968305561bf48b92d57d9230d526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 0
+  minDistance: 0
+  offset: 2.5
+  cooldown: 2
 --- !u!1 &842709396
 GameObject:
   m_ObjectHideFlags: 0
