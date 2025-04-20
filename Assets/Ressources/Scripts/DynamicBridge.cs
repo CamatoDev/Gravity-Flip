@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VerticalDynamicPlatform : MonoBehaviour
+public class DynamicBridge : MonoBehaviour
 {
     // Distance max et min de deplacement de la platforme
-    public float maxDistance;
-    public float minDistance;
+    private float maxDistance;
+    private float minDistance;
     // Valeur du deplacement
     public float offset = 2f;
-    // Delai avant de changement de sens
-    public float cooldown = 2f;
     // Start is called before the first frame update
     void Start()
     {
