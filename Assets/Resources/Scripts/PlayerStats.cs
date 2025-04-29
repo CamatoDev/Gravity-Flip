@@ -8,11 +8,13 @@ public class PlayerStats : MonoBehaviour
     private bool _haveKey;
     public bool canTakeKey;
     public GameObject key;
+    public GameObject keyImage;
     // Start is called before the first frame update
     void Start()
     {
         _haveKey = false;
         canTakeKey = false;
+        keyImage.SetActive(false);
     }
 
     // Update is called once per frame
@@ -22,6 +24,7 @@ public class PlayerStats : MonoBehaviour
         {
             _haveKey = true;
             Debug.Log("Clé récuper");
+            keyImage.SetActive(true);
             Destroy(key.gameObject);
         }
     }
