@@ -5,14 +5,14 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     //Variable pour la clé
-    private bool _haveKey;
+    public bool haveKey;
     public bool canTakeKey;
     public GameObject key;
     public GameObject keyImage;
     // Start is called before the first frame update
     void Start()
     {
-        _haveKey = false;
+        haveKey = false;
         canTakeKey = false;
         keyImage.SetActive(false);
     }
@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E) && canTakeKey)
         {
-            _haveKey = true;
+            haveKey = true;
             Debug.Log("Clé récuper");
             keyImage.SetActive(true);
             Destroy(key.gameObject);
