@@ -14,7 +14,7 @@ public class DynamicBridge : MonoBehaviour
     {
         maxDistance = transform.position.y + offset;
         minDistance = transform.position.y;
-        //StartCoroutine(MovePlatform());
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
