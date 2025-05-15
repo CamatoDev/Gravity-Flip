@@ -5,13 +5,16 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     Animator playerAnimator;
+    Rigidbody rb;
+    const float timeOut = 5f;
     float axisH, axisV;
     [SerializeField]
-    float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 2f;
+    float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 150f, countDown = timeOut;
 
     void Awake()
     {
         playerAnimator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -30,6 +33,7 @@ public class PlayerScript : MonoBehaviour
             {
                 transform.Translate(Vector3.forward * axisV * walkSpeed * Time.deltaTime);
                 playerAnimator.SetBool("walk", true);
+                playerAnimator.SetBool("walkBack", false);
                 playerAnimator.SetFloat("run", 0);
             }
 
@@ -37,20 +41,47 @@ public class PlayerScript : MonoBehaviour
         else
         {
             playerAnimator.SetBool("walk", false);
+            playerAnimator.SetBool("walkBack", false);
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (axisV != 0)
         {
+            transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
+        }
+        if (axisV < 0)
+        {
+            transform.Translate(Vector3.forward * axisV * walkSpeed * Time.deltaTime);
+            playerAnimator.SetBool("walkBack", true);
+            playerAnimator.SetFloat("run", 0);
+        }
+        else
+        {
+            playerAnimator.SetBool("walkBack", false);
+        }
+
+        //Idle Dance Rumba
+        if (axisH == 0 && axisV == 0)
+        {
+            countDown -= Time.deltaTime;
+            if (countDown <= 0)
+            {
+                playerAnimator.SetBool("dance", true);
+                countDown = timeOut;
+            }
+        }
+        else
+        {
+            playerAnimator.SetBool("dance", false);
+            countDown = timeOut;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * jumpForce);
             playerAnimator.SetTrigger("jump");
         }
-
-        if (axisH != 0)
-        {
-            Debug.Log("AxisH " + axisH);
-            Debug.Log("Vector3.up " + Vector3.up);
-            Debug.Log("rotationSpeed " + rotationSpeed);
-            Debug.Log("Time.deltaTime " + Time.deltaTime);
-        }
-        transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
     }
 }
