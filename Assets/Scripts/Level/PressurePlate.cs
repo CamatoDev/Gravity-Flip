@@ -20,13 +20,6 @@ public class PressurePlate : MonoBehaviour
     // état interne
     private bool isPlayerInRange = false;
 
-    void Reset()
-    {
-        // assure qu'on peut passer à travers la plaque
-        var col = GetComponent<Collider>();
-        col.isTrigger = true;
-    }
-
     void Update()
     {
         if (activationType == ActivationType.Manual && isPlayerInRange && Input.GetKeyDown(activationKey))
@@ -34,31 +27,32 @@ public class PressurePlate : MonoBehaviour
             TogglePlate();
         }
     }
-
-    void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!collision.transform.CompareTag("Player")) return;
 
         if (activationType == ActivationType.Automatic)
         {
-            //gameObject.SetActive(false);
-            TriggerAction();
+            Vector3 press = new Vector3(0, 0.04f, 0);
+            transform.position -= press;
+            TogglePlate();
         }
         else // Manual
         {
             isPlayerInRange = true;
-            // ici tu peux afficher un prompt UI : "Appuyez sur E"
+            // "Appuyez sur E"
             indicationPressurePlate.SetActive(true);
         }
     }
 
-    void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision collision)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!collision.transform.CompareTag("Player")) return;
 
         if (activationType == ActivationType.Automatic)
         {
-            //gameObject.SetActive(true);
+            Vector3 press = new Vector3(0, 0.04f, 0);
+            transform.position += press;
         }
         else // Manual
         {
@@ -67,6 +61,7 @@ public class PressurePlate : MonoBehaviour
             indicationPressurePlate.SetActive(false);
         }
     }
+
     public void TogglePlate()
     {
         //gameObject.SetActive(!gameObject.activeSelf);
