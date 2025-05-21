@@ -21,7 +21,7 @@ public class PauseMenu : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Pause"))
+        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Jump"))
         {
             Toggle();
         }

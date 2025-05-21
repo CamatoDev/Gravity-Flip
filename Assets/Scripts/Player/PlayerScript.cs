@@ -84,7 +84,7 @@ public class PlayerScript : MonoBehaviour
     void FixedUpdate()
     {
         jumpCooling += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButton("Jump"))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButton("Fire3"))
         {
             if (jumpCooling > jumpCoolDown)
             {
