@@ -6,11 +6,12 @@ public class PlayerScript : MonoBehaviour
 {
     Animator playerAnimator;
     Rigidbody rb;
-    const float timeOut = 5f;
+    const float timeOut = 10f;
     float axisH, axisV;
     [SerializeField]
-    float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 150f, countDown = timeOut;
+    float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 150f, countDown = timeOut, jumpCoolDown = 0.5f;
 
+    public float jumpCooling = 0f;
     void Awake()
     {
         playerAnimator = GetComponent<Animator>();
@@ -19,8 +20,12 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+        // Debug.Log(Input.GetJoystickNames().ToString());
         axisH = Input.GetAxis("Horizontal");
         axisV = Input.GetAxis("Vertical");
+
+        Debug.Log("axisH: " + Input.GetAxis("Vertical"));
+        Debug.Log("axisV: " + Input.GetAxis("Horizontal"));
 
         if (axisV > 0)
         {
@@ -78,10 +83,16 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        jumpCooling += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButton("Jump"))
         {
-            rb.AddForce(Vector3.up * jumpForce);
-            playerAnimator.SetTrigger("jump");
+            if (jumpCooling > jumpCoolDown)
+            {
+                rb.AddForce(Vector3.up * jumpForce);
+                playerAnimator.SetTrigger("jump");
+                jumpCooling = 0f;
+            }
+
         }
     }
 }

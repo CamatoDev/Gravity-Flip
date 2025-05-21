@@ -1276,6 +1276,8 @@ MonoBehaviour:
   rotationSpeed: 100
   jumpForce: 150
   countDown: 5
+  jumpCoolDown: 0.5
+  jumpCooling: 0
 --- !u!54 &8413266095721225397
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1301,7 +1303,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &2881377973208331317
 CapsuleCollider:
