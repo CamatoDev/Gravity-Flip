@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - coinGold
+  - BonusLife
+  - BigCoinGold
+  - Spike
+  - LevelEnd
   layers:
   - Default
   - TransparentFX

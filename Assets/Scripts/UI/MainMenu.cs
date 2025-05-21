@@ -1,13 +1,13 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    // Variables pour le son 
-    private AudioSource audioSource;
     public AudioSource buttonAudioSource;
     //pour le panel des option
     public GameObject optionPanel;
+    public GameObject playButton;
 
     // Variales pour le chargement du niveau
     public string levelToLoad = "Level01";
@@ -16,8 +16,9 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Assignation des variables 
-        audioSource = gameObject.GetComponent<AudioSource>();
+        //Passer un bouton en priorité à l'Event system
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(playButton);
     }
 
     // Fonction pour le lacement du jeu 

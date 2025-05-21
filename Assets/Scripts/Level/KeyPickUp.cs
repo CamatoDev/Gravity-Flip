@@ -9,18 +9,6 @@ public class KeyPickUp : MonoBehaviour
     // Text d'indication de la possibilité de ramasser la clé
     public GameObject ui;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Player"))

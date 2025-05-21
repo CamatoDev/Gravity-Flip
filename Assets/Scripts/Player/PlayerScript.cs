@@ -24,12 +24,12 @@ public class PlayerScript : MonoBehaviour
         axisH = Input.GetAxis("Horizontal");
         axisV = Input.GetAxis("Vertical");
 
-        Debug.Log("axisH: " + Input.GetAxis("Vertical"));
-        Debug.Log("axisV: " + Input.GetAxis("Horizontal"));
+        //Debug.Log("axisH: " + Input.GetAxis("Vertical"));
+        //Debug.Log("axisV: " + Input.GetAxis("Horizontal"));
 
         if (axisV > 0)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetButton("Sprint"))
             {
                 transform.Translate(Vector3.forward * axisV * runSpeed * Time.deltaTime);
                 playerAnimator.SetFloat("run", axisV);
@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour
 
         if (axisV != 0)
         {
-            transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
+            //transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
         }
         if (axisV < 0)
         {
@@ -84,7 +84,7 @@ public class PlayerScript : MonoBehaviour
     void FixedUpdate()
     {
         jumpCooling += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButton("Fire3"))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButton("JoystickJump"))
         {
             if (jumpCooling > jumpCoolDown)
             {
