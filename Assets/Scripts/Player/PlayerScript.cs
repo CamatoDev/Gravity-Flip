@@ -6,7 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
     Animator playerAnimator;
     Rigidbody rb;
-    const float timeOut = 10f;
+    const float timeOut = 15f;
     float axisH, axisV;
     [SerializeField]
     float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 150f, countDown = timeOut, jumpCoolDown = 0.5f;
@@ -92,6 +92,8 @@ public class PlayerScript : MonoBehaviour
                 playerAnimator.SetTrigger("jump");
                 jumpCooling = 0f;
             }
+            playerAnimator.SetBool("dance", false);
+            countDown = timeOut;
 
         }
     }
