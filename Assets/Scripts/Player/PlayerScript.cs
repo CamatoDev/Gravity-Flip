@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour
 
         if (axisV != 0)
         {
-            //transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
         }
         if (axisV < 0)
         {
