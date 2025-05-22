@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public EventSystem eventSystem;
     public GameObject continueButton;
     //pour le fondu 
     public SceneFader sceneFader;
@@ -17,7 +16,9 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        eventSystem.firstSelectedGameObject = continueButton;
+        //Passer un bouton en priorité à l'Event system
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(continueButton);
     }
     private void Update()
     {
@@ -31,7 +32,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseUI.SetActive(!pauseUI.activeSelf);
 
-        //mettre le temps sur pause si on est en pause et le faire continuer sinon 
+        //mettre le temps sur pause si on est en pause et le faire continuer sinon
         if (pauseUI.activeSelf)
         {
             Time.timeScale = 0f; //temps en pause 

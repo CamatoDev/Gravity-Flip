@@ -1,39 +1,21 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameOver : MonoBehaviour
 {
     //Reférence à scene fader 
     public SceneFader sceneFader;
 
-    // Vaiables pour le text du UI de Game Over
-    public Text gameOverText;
-    public string deadText;
-    public string endTimeText;
+    public GameObject RetryButton;
     //Source audio 
     public AudioSource buttons;
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        //if (GameManager.gameIsOver)
-        //{
-        //    return;
-        //}
-
-        //if (Player_stats.isDead)
-        //{
-        //    gameOverText.text = deadText;
-        //    GameOverf();
-        //}
-
-        ////Si le temps imparti est terminé
-        //if (Player_stats.playerTime <= 0f)
-        //{
-        //    gameOverText.text = endTimeText;
-        //    GameOverf();
-        //}
+        //Passer un bouton en priorité à l'Event system
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(RetryButton);
     }
 
     public void Retry()

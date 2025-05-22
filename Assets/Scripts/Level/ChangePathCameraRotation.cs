@@ -6,7 +6,6 @@ public class ChangePathCameraRotation : MonoBehaviour
 {
     private bool _pathChanged = false;
     public Transform player;
-    public Transform camera;
     public float distanceToActive = 1f;
     // Start is called before the first frame update
     void Start()
@@ -37,11 +36,11 @@ public class ChangePathCameraRotation : MonoBehaviour
         {
             if (!_pathChanged)
             {
-                camera.RotateAround(player.position, Vector3.up, 90);
+                player.Rotate(Vector3.up, 90);
             }
             if (_pathChanged)
             {
-                camera.RotateAround(player.position, Vector3.up, -90);
+                player.Rotate(Vector3.up, -90);
             }
 
             _pathChanged = !_pathChanged;

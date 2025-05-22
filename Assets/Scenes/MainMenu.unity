@@ -477,7 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1577862668}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &495088350
@@ -1473,9 +1473,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonAudioSource: {fileID: 1335993340}
-  muteImage: {fileID: 0}
-  unmuteImage: {fileID: 0}
-  soundButton: {fileID: 0}
+  optionPanel: {fileID: 0}
+  playButton: {fileID: 1577862668}
   levelToLoad: LevelTest
   sceneFader: {fileID: 230453495}
 --- !u!4 &2083024487
