@@ -5,11 +5,12 @@ using UnityEngine;
 public class ChangePathCameraRotation : MonoBehaviour
 {
     private bool _pathChanged = false;
-    public Transform player;
+    Transform _player;
     public float distanceToActive = 1f;
     // Start is called before the first frame update
     void Start()
     {
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
         _pathChanged = false;
     }
 
@@ -36,11 +37,11 @@ public class ChangePathCameraRotation : MonoBehaviour
         {
             if (!_pathChanged)
             {
-                player.Rotate(Vector3.up, 90);
+                _player.Rotate(Vector3.up, 90);
             }
             if (_pathChanged)
             {
-                player.Rotate(Vector3.up, -90);
+                _player.Rotate(Vector3.up, -90);
             }
 
             _pathChanged = !_pathChanged;

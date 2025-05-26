@@ -5,7 +5,8 @@ public class GameManager : MonoBehaviour
 {
     PlayerStats _playerStats;
     [Header("Time")]
-    public float timer = 300f;
+    private float timer;
+    public float startTimer = 300f;
     public Text timerText;
     // Vaiables pour le text du UI de Game Over
     [Header("Game is over")]
@@ -20,10 +21,12 @@ public class GameManager : MonoBehaviour
     public GameObject winLevel;
     //pour le text du nombre de pièces collecté
     public Text moneyNumber;
+    public Text levelEndedTime;
 
     // Start is called before the first frame update
     void Start()
     {
+        timer = startTimer;
         _gameIsOver = false;
         gameOver.SetActive(false);
         winLevel.SetActive(false);
@@ -78,6 +81,7 @@ public class GameManager : MonoBehaviour
     public void WinLevel()
     {
         _gameIsOver = true;
+        levelEndedTime.text = "Your Time : " + string.Format("{0:00.00}", startTimer - timer);
         winLevel.SetActive(true);
     }
 }

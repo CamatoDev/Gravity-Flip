@@ -12,6 +12,11 @@ public class PlayerScript : MonoBehaviour
     float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 150f, countDown = timeOut, jumpCoolDown = 0.5f;
 
     public float jumpCooling = 0f;
+    [Header("Ground Check Settings")]
+    [SerializeField] float groundCheckRadius = 0.2f;
+    [SerializeField] Vector3 groundCheckOffset;
+    [SerializeField] LayerMask groundLayer;
+    bool isGrounded;
     void Awake()
     {
         playerAnimator = GetComponent<Animator>();
@@ -21,8 +26,8 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         // Debug.Log(Input.GetJoystickNames().ToString());
-        axisH = Input.GetAxis("Horizontal");
-        axisV = Input.GetAxis("Vertical");
+        axisV = - Input.GetAxis("Horizontal");
+        axisH = Input.GetAxis("Vertical");
 
         //Debug.Log("axisH: " + Input.GetAxis("Vertical"));
         //Debug.Log("axisV: " + Input.GetAxis("Horizontal"));
@@ -51,7 +56,7 @@ public class PlayerScript : MonoBehaviour
 
         if (axisV != 0)
         {
-            transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
+            //transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
         }
         if (axisV < 0)
         {
@@ -83,6 +88,9 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        GroundeCheck();
+        Debug.Log("isGround = " + isGrounded);
+
         jumpCooling += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButton("JoystickJump"))
         {
@@ -96,5 +104,15 @@ public class PlayerScript : MonoBehaviour
             countDown = timeOut;
 
         }
+    }
+
+    void GroundeCheck()
+    {
+        isGrounded = Physics.CheckSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius, groundLayer);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(0, 1, 0, 0.5f);
+        Gizmos.DrawSphere(transform.TransformPoint(groundCheckOffset), groundCheckRadius);
     }
 }

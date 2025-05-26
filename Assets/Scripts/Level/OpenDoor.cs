@@ -5,7 +5,7 @@ using UnityEngine;
 public class OpenDoor : MonoBehaviour
 {
     // Réference au joueur
-    public PlayerStats player;
+    PlayerStats _player;
     // UI d'indication 
     public GameObject indication;
     // Distance à laquel le joueur peut ouvrir la porte
@@ -14,6 +14,7 @@ public class OpenDoor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         indication.SetActive(false);
     }
 
@@ -21,12 +22,12 @@ public class OpenDoor : MonoBehaviour
     void Update()
     {
         // Calcule de la distance entre le joueur et la porte
-        float Distance = Vector3.Distance(player.transform.position, transform.position);
+        float Distance = Vector3.Distance(_player.transform.position, transform.position);
 
-        if(Distance <= distanceToOpen && player.haveKey)
+        if(Distance <= distanceToOpen && _player.haveKey)
         {
             Debug.Log("Ouverture de la porte...");
-            Destroy(gameObject, 1f);
+            Destroy(gameObject);
         }
         if(Distance <= distanceToOpen)
         {

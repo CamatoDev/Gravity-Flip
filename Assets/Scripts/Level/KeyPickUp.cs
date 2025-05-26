@@ -5,17 +5,21 @@ using UnityEngine;
 public class KeyPickUp : MonoBehaviour
 {
     // Reference au joueur 
-    public PlayerStats playerStats;
+    PlayerStats _playerStats;
     // Text d'indication de la possibilité de ramasser la clé
     public GameObject ui;
 
+    void Start()
+    {
+        _playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Player"))
         {
             Debug.Log("Le joueur à touché la clé.");
             ui.SetActive(true);
-            playerStats.canTakeKey = true;
+            _playerStats.canTakeKey = true;
         }
     }
 
@@ -25,7 +29,7 @@ public class KeyPickUp : MonoBehaviour
         {
             Debug.Log("Le joueur à touché la clé.");
             ui.SetActive(false);
-            playerStats.canTakeKey = false;
+            _playerStats.canTakeKey = false;
         }
     }
 
