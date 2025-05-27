@@ -15,7 +15,7 @@ public class PlayerStats : MonoBehaviour
     public Text lifeNumberUI;
     public float currentLife;
     private float _startLife = 3f;
-    // Variable pour la clé
+    // Variable pour la cle
     [Header("For the Key")]
     public bool haveKey;
     public bool canTakeKey;
@@ -45,7 +45,7 @@ public class PlayerStats : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E) || Input.GetButton("PickUp") && canTakeKey)
         {
             haveKey = true;
-            Debug.Log("Clé récuper");
+            Debug.Log("Cle recuper");
             keyImage.SetActive(true);
             Destroy(key.gameObject);
         }
@@ -55,7 +55,7 @@ public class PlayerStats : MonoBehaviour
     {
         if (collision.transform.CompareTag("coinGold"))
         {
-            Debug.Log("Le joueur à touché la pièce d'or.");
+            Debug.Log("Le joueur a touche la piece d'or.");
             Destroy(collision.transform.gameObject);
             Debug.Log("+ 10 points !");
             currentMoney += 10f;
@@ -63,7 +63,7 @@ public class PlayerStats : MonoBehaviour
 
         if (collision.transform.CompareTag("BonusLife"))
         {
-            Debug.Log("Le joueur à touché la vie bonus");
+            Debug.Log("Le joueur a touche la vie bonus");
             Destroy(collision.transform.gameObject);
             Debug.Log("+ 1 vie !");
             currentLife += 1f;
@@ -71,7 +71,7 @@ public class PlayerStats : MonoBehaviour
 
         if (collision.transform.CompareTag("BigCoinGold"))
         {
-            Debug.Log("Le joueur à touché la pièce d'or géante.");
+            Debug.Log("Le joueur a touche la piece d'or geante.");
             Destroy(collision.transform.gameObject);
             Debug.Log("+ 50 points !");
             currentMoney += 50f;

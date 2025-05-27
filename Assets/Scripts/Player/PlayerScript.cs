@@ -9,9 +9,9 @@ public class PlayerScript : MonoBehaviour
     const float timeOut = 15f;
     float axisH, axisV;
     [SerializeField]
-    float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 150f, countDown = timeOut, jumpCoolDown = 0.5f;
+    float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 150f, countDown = timeOut, jumpCoolDown = 0.5f, turnCoolDown = 1.5f;
 
-    public float jumpCooling = 0f;
+    public float jumpCooling = 0f, turnCooling = 0f;
     [Header("Ground Check Settings")]
     [SerializeField] float groundCheckRadius = 0.2f;
     [SerializeField] Vector3 groundCheckOffset;
@@ -26,8 +26,8 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         // Debug.Log(Input.GetJoystickNames().ToString());
-        axisV = - Input.GetAxis("Horizontal");
-        axisH = Input.GetAxis("Vertical");
+        axisH = Input.GetAxis("Horizontal");
+        axisV = Input.GetAxis("Vertical");
 
         //Debug.Log("axisH: " + Input.GetAxis("Vertical"));
         //Debug.Log("axisV: " + Input.GetAxis("Horizontal"));
@@ -56,13 +56,15 @@ public class PlayerScript : MonoBehaviour
 
         if (axisV != 0)
         {
-            //transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
         }
-        if (axisV < 0)
+
+        turnCooling += Time.deltaTime;
+        if (axisV < 0 && turnCooling > turnCoolDown)
         {
-            transform.Translate(Vector3.forward * axisV * walkSpeed * Time.deltaTime);
-            playerAnimator.SetBool("walkBack", true);
-            playerAnimator.SetFloat("run", 0);
+            Debug.Log("Left Control Pressed && jumpCooling > turnCoolDown");
+            transform.Rotate(Vector3.up * 180f);
+            turnCooling = 0f;
         }
         else
         {
@@ -103,6 +105,12 @@ public class PlayerScript : MonoBehaviour
             playerAnimator.SetBool("dance", false);
             countDown = timeOut;
 
+        }
+
+        
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Debug.Log("Left Control Pressed");
         }
     }
 
