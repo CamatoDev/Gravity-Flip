@@ -6,12 +6,14 @@ public class PlayerScript : MonoBehaviour
 {
     Animator playerAnimator;
     Rigidbody rb;
+    AudioSource playerAudioSource;
+    [SerializeField] AudioClip jumpSound, walkSound, runSound, danceSound, turnSound;
     const float timeOut = 15f;
     float axisH, axisV;
     [SerializeField]
-    float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 150f, countDown = timeOut, jumpCoolDown = 0.5f;
+    float walkSpeed = 2f, runSpeed = 5f, rotationSpeed = 100f, jumpForce = 150f, countDown = timeOut, jumpCoolDown = 0.5f, turnCoolDown = 1.5f;
 
-    public float jumpCooling = 0f;
+    public float jumpCooling = 0f, turnCooling = 0f;
     [Header("Ground Check Settings")]
     [SerializeField] float groundCheckRadius = 0.2f;
     [SerializeField] Vector3 groundCheckOffset;
@@ -21,13 +23,14 @@ public class PlayerScript : MonoBehaviour
     {
         playerAnimator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        playerAudioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
         // Debug.Log(Input.GetJoystickNames().ToString());
-        axisV = - Input.GetAxis("Horizontal");
-        axisH = Input.GetAxis("Vertical");
+        axisH = Input.GetAxis("Horizontal");
+        axisV = Input.GetAxis("Vertical");
 
         //Debug.Log("axisH: " + Input.GetAxis("Vertical"));
         //Debug.Log("axisV: " + Input.GetAxis("Horizontal"));
@@ -38,6 +41,11 @@ public class PlayerScript : MonoBehaviour
             {
                 transform.Translate(Vector3.forward * axisV * runSpeed * Time.deltaTime);
                 playerAnimator.SetFloat("run", axisV);
+                playerAudioSource.clip = runSound;
+                if (!playerAudioSource.isPlaying)
+                {
+                    playerAudioSource.Play();
+                }
             }
             else
             {
@@ -45,6 +53,11 @@ public class PlayerScript : MonoBehaviour
                 playerAnimator.SetBool("walk", true);
                 playerAnimator.SetBool("walkBack", false);
                 playerAnimator.SetFloat("run", 0);
+                playerAudioSource.clip = walkSound;
+                if (!playerAudioSource.isPlaying)
+                {
+                    playerAudioSource.Play();
+                }
             }
 
         }
@@ -56,17 +69,20 @@ public class PlayerScript : MonoBehaviour
 
         if (axisV != 0)
         {
-            //transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
         }
-        if (axisV < 0)
+
+        turnCooling += Time.deltaTime;
+        if (axisV < 0 && turnCooling > turnCoolDown)
         {
-            transform.Translate(Vector3.forward * axisV * walkSpeed * Time.deltaTime);
-            playerAnimator.SetBool("walkBack", true);
-            playerAnimator.SetFloat("run", 0);
-        }
-        else
-        {
-            playerAnimator.SetBool("walkBack", false);
+            Debug.Log("Left Control Pressed && jumpCooling > turnCoolDown");
+            playerAudioSource.clip = turnSound;
+            if (!playerAudioSource.isPlaying)
+            {
+                playerAudioSource.Play();
+            }
+            transform.Rotate(Vector3.up * 180f);
+            turnCooling = 0f;
         }
 
         //Idle Dance Rumba
@@ -76,12 +92,22 @@ public class PlayerScript : MonoBehaviour
             if (countDown <= 0)
             {
                 playerAnimator.SetBool("dance", true);
+                playerAnimator.SetBool("walk", false);
+                playerAnimator.SetBool("walkBack", false);
+                playerAnimator.SetFloat("run", 0);
+                playerAudioSource.clip = danceSound;
+                playerAudioSource.loop = true;
+                if (!playerAudioSource.isPlaying)
+                {
+                    playerAudioSource.Play();
+                }
                 countDown = timeOut;
             }
         }
         else
         {
             playerAnimator.SetBool("dance", false);
+            playerAudioSource.loop = false;
             countDown = timeOut;
         }
     }
@@ -98,11 +124,22 @@ public class PlayerScript : MonoBehaviour
             {
                 rb.AddForce(Vector3.up * jumpForce);
                 playerAnimator.SetTrigger("jump");
+                playerAudioSource.clip = jumpSound;
+                if (!playerAudioSource.isPlaying)
+                {
+                    playerAudioSource.Play();
+                }
                 jumpCooling = 0f;
             }
             playerAnimator.SetBool("dance", false);
             countDown = timeOut;
 
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Debug.Log("Left Control Pressed");
         }
     }
 
