@@ -64,23 +64,25 @@ public class PlayerStats : MonoBehaviour
         if (collision.transform.CompareTag("coinGold"))
         {
             Debug.Log("Le joueur a touche la piece d'or.");
-            Destroy(collision.transform.gameObject);
+            Destroy(collision.transform.gameObject, 0.2f);
             Debug.Log("+ 10 points !");
             currentMoney += 10f;
         }
 
         if (collision.transform.CompareTag("BonusLife"))
         {
+            bonusLife.Play();
             Debug.Log("Le joueur a touche la vie bonus");
-            Destroy(collision.transform.gameObject);
+            Destroy(collision.transform.gameObject, 0.2f);
             Debug.Log("+ 1 vie !");
             currentLife += 1f;
         }
 
         if (collision.transform.CompareTag("BigCoinGold"))
         {
+            bigGoldCoin.Play();
             Debug.Log("Le joueur a touche la piece d'or geante.");
-            Destroy(collision.transform.gameObject);
+            Destroy(collision.transform.gameObject, 0.2f);
             Debug.Log("+ 50 points !");
             currentMoney += 50f;
         }

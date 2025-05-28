@@ -29,8 +29,8 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         // Debug.Log(Input.GetJoystickNames().ToString());
-        axisH = Input.GetAxis("Horizontal");
-        axisV = Input.GetAxis("Vertical");
+        axisV = - Input.GetAxis("Horizontal");
+        axisH = Input.GetAxis("Vertical");
 
         //Debug.Log("axisH: " + Input.GetAxis("Vertical"));
         //Debug.Log("axisV: " + Input.GetAxis("Horizontal"));
@@ -69,20 +69,28 @@ public class PlayerScript : MonoBehaviour
 
         if (axisV != 0)
         {
-            transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
+            //transform.Rotate(Vector3.up * axisH * rotationSpeed * Time.deltaTime);
         }
 
         turnCooling += Time.deltaTime;
         if (axisV < 0 && turnCooling > turnCoolDown)
         {
-            Debug.Log("Left Control Pressed && jumpCooling > turnCoolDown");
-            playerAudioSource.clip = turnSound;
+            //Debug.Log("Left Control Pressed && jumpCooling > turnCoolDown");
+            //playerAudioSource.clip = turnSound;
+            //if (!playerAudioSource.isPlaying)
+            //{
+            //    playerAudioSource.Play();
+            //}
+            //transform.Rotate(Vector3.up * 180f);
+            //turnCooling = 0f;
+            transform.Translate(Vector3.forward * axisV * walkSpeed * Time.deltaTime);
+            playerAnimator.SetBool("walkBack", true);
+            playerAnimator.SetFloat("run", 0); 
+            playerAudioSource.clip = walkSound;
             if (!playerAudioSource.isPlaying)
             {
                 playerAudioSource.Play();
             }
-            transform.Rotate(Vector3.up * 180f);
-            turnCooling = 0f;
         }
 
         //Idle Dance Rumba
@@ -97,6 +105,7 @@ public class PlayerScript : MonoBehaviour
                 playerAnimator.SetFloat("run", 0);
                 playerAudioSource.clip = danceSound;
                 playerAudioSource.loop = true;
+                playerAudioSource.volume = 0.25f;
                 if (!playerAudioSource.isPlaying)
                 {
                     playerAudioSource.Play();
@@ -108,6 +117,7 @@ public class PlayerScript : MonoBehaviour
         {
             playerAnimator.SetBool("dance", false);
             playerAudioSource.loop = false;
+            playerAudioSource.volume = 1;
             countDown = timeOut;
         }
     }

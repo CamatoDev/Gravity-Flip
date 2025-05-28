@@ -65,6 +65,8 @@ public class PressurePlate : MonoBehaviour
             // masquer le prompt UI
             indicationPressurePlate.SetActive(false);
         }
+
+        //Destroy(gameObject, 0.1f);
     }
 
     public void TogglePlate()
