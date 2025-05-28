@@ -14,6 +14,9 @@ public class EphemeralPlatform : MonoBehaviour
     [Tooltip("Si vrai, la plateforme ne réapparaît qu'une seule fois")]
     public bool oneTime = false;
 
+    [Header("Son de la plaque")]
+    public AudioSource audioSource;
+
     private Collider _collider;
     private MeshRenderer _renderer;
     private bool _isCycling = false;
@@ -40,6 +43,7 @@ public class EphemeralPlatform : MonoBehaviour
         yield return new WaitForSeconds(disappearDelay);
 
         // Désactivation visuelle et physique
+        audioSource.Play();
         _renderer.enabled = false;
         _collider.enabled = false;
 

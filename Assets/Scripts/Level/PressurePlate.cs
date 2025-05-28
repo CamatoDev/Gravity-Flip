@@ -17,6 +17,9 @@ public class PressurePlate : MonoBehaviour
     [Header("objet à enclencher")]
     public GameObject target;
 
+    [Header("Son de la plaque")]
+    public AudioSource audioSource;
+
     // état interne
     private bool isPlayerInRange = false;
 
@@ -24,6 +27,7 @@ public class PressurePlate : MonoBehaviour
     {
         if (activationType == ActivationType.Manual && isPlayerInRange && Input.GetKeyDown(activationKey))
         {
+            audioSource.Play();
             TogglePlate();
         }
     }
@@ -35,6 +39,7 @@ public class PressurePlate : MonoBehaviour
         {
             Vector3 press = new Vector3(0, 0.04f, 0);
             transform.position -= press;
+            audioSource.Play();
             TogglePlate();
         }
         else // Manual

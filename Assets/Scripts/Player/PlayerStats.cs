@@ -21,6 +21,13 @@ public class PlayerStats : MonoBehaviour
     public bool canTakeKey;
     public GameObject key;
     public GameObject keyImage;
+    // Variables pour les sons
+    [Header("Audio Source")]
+    public AudioSource bigGoldCoin;
+    public AudioSource bonusLife;
+    public AudioSource pickUp;
+    public AudioSource spike;
+    public AudioSource pain;
 
     [Header("Others")]
     public bool isFalled = false;
@@ -44,10 +51,11 @@ public class PlayerStats : MonoBehaviour
         MoneyTextUI.text = currentMoney.ToString();
         if(Input.GetKeyDown(KeyCode.E) || Input.GetButton("PickUp") && canTakeKey)
         {
+            pickUp.Play();
             haveKey = true;
             Debug.Log("Clé récuper");
             keyImage.SetActive(true);
-            Destroy(key.gameObject);
+            Destroy(key.gameObject, 0.5f);
         }
     }
 
@@ -56,7 +64,7 @@ public class PlayerStats : MonoBehaviour
         if (collision.transform.CompareTag("coinGold"))
         {
             Debug.Log("Le joueur à touché la pièce d'or.");
-            Destroy(collision.transform.gameObject);
+            Destroy(collision.transform.gameObject, 0.2f);
             Debug.Log("+ 10 points !");
             currentMoney += 10f;
         }
@@ -64,7 +72,8 @@ public class PlayerStats : MonoBehaviour
         if (collision.transform.CompareTag("BonusLife"))
         {
             Debug.Log("Le joueur à touché la vie bonus");
-            Destroy(collision.transform.gameObject);
+            bonusLife.Play();
+            Destroy(collision.transform.gameObject, 0.2f);
             Debug.Log("+ 1 vie !");
             currentLife += 1f;
         }
@@ -72,17 +81,22 @@ public class PlayerStats : MonoBehaviour
         if (collision.transform.CompareTag("BigCoinGold"))
         {
             Debug.Log("Le joueur à touché la pièce d'or géante.");
-            Destroy(collision.transform.gameObject);
+            bigGoldCoin.Play();
+            Destroy(collision.transform.gameObject, 0.2f);
             Debug.Log("+ 50 points !");
             currentMoney += 50f;
+        }
+
+        if (collision.transform.CompareTag("Spike"))
+        {
+            // Rajouter une animation de dégat
+            spike.Play();
+            currentLife -= spikeDamage;
+            pain.Play();
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Spike"))
-        {
-            currentLife -= spikeDamage;
-        }
         if (collision.transform.CompareTag("Ground"))
         {
             isFalled = true;

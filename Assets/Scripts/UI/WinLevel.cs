@@ -29,14 +29,14 @@ public class WinLevel : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(NextButton);
     }
-    //void OnEnable()
-    //{
+    void OnEnable()
+    {
 
-    //    //if (levelToUnlock > PlayerPrefs.GetInt("levelReached", 1))
-    //    //{
-    //    //    PlayerPrefs.SetInt("levelReached", levelToUnlock);
-    //    //}
-    //}
+        if (levelToUnlock > PlayerPrefs.GetInt("levelReached", 1))
+        {
+            PlayerPrefs.SetInt("levelReached", levelToUnlock);
+        }
+    }
 
     //Pour passer au niveau suivant 
     public void NextLevel()
