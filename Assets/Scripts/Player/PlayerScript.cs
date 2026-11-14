@@ -70,12 +70,10 @@ public class PlayerScript : MonoBehaviour
             playerAnimator.applyRootMotion = false;
         }
 
-        // 2. Configuration par défaut du CapsuleCollider (calibrée en Play Mode)
+        // 2. Centrage du CapsuleCollider sur l'axe Z (laisse l'Inspecteur libre pour Center Y et Height)
         if (playerCollider is CapsuleCollider capsule)
         {
-            capsule.center = new Vector3(0f, 0.4512336f, 0f);
-            capsule.radius = 0.2795277f;
-            capsule.height = 1.476729f;
+            capsule.center = new Vector3(capsule.center.x, capsule.center.y, 0f);
             capsule.direction = 1; // Axe Y
         }
 
@@ -134,11 +132,11 @@ public class PlayerScript : MonoBehaviour
         float rawHorizontal = Input.GetAxisRaw("Horizontal");
         inputMove = invertAxis ? -rawHorizontal : rawHorizontal;
 
-        // 2. Demi-tour 180° selon le sens d'avancement (instantané par défaut)
+        // 2. Demi-tour 180° selon le sens d'avancement (instantané uniquement au changement de direction)
         if (inputMove > 0.05f)
         {
             targetRotation = Quaternion.Euler(0f, currentTrackAngle, 0f);
-            if (instantRotation)
+            if (instantRotation && Quaternion.Angle(transform.rotation, targetRotation) > 1f)
             {
                 rb.rotation = targetRotation;
                 transform.rotation = targetRotation;
@@ -147,7 +145,7 @@ public class PlayerScript : MonoBehaviour
         else if (inputMove < -0.05f)
         {
             targetRotation = Quaternion.Euler(0f, currentTrackAngle + 180f, 0f);
-            if (instantRotation)
+            if (instantRotation && Quaternion.Angle(transform.rotation, targetRotation) > 1f)
             {
                 rb.rotation = targetRotation;
                 transform.rotation = targetRotation;
