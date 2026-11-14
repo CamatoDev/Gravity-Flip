@@ -49,18 +49,35 @@ public class PlayerStats : MonoBehaviour
     {
         lifeNumberUI.text = currentLife.ToString();
         MoneyTextUI.text = currentMoney.ToString();
-        if(Input.GetKeyDown(KeyCode.E) || Input.GetButton("PickUp") && canTakeKey)
+
+        // Securite de chute sous le niveau (Game Over immediat)
+        if (transform.position.y < -4f)
         {
-            pickUp.Play();
+            isFalled = true;
+        }
+
+        if ((Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("PickUp")) && canTakeKey && key != null)
+        {
+            if (pickUp != null) pickUp.Play();
             haveKey = true;
-            Debug.Log("Cle recuper");
-            keyImage.SetActive(true);
-            Destroy(key.gameObject, 0.5f);
+            Debug.Log("Cle recuperee");
+            if (keyImage != null) keyImage.SetActive(true);
+            Destroy(key.gameObject, 0.2f);
         }
     }
 
     public void OnTriggerEnter(Collider collision)
     {
+        if (collision.transform.CompareTag("KillZone") || collision.transform.CompareTag("Ground"))
+        {
+            isFalled = true;
+        }
+
+        if (collision.transform.CompareTag("LevelEnd"))
+        {
+            isLevelEnded = true;
+        }
+
         if (collision.transform.CompareTag("coinGold"))
         {
             Debug.Log("Le joueur a touche la piece d'or.");
@@ -97,7 +114,7 @@ public class PlayerStats : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Ground"))
+        if (collision.transform.CompareTag("KillZone") || collision.transform.CompareTag("Ground"))
         {
             isFalled = true;
         }

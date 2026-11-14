@@ -4,32 +4,55 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
-    //Reférence à scene fader 
+    // Reference a scene fader 
     public SceneFader sceneFader;
 
     public GameObject RetryButton;
-    //Source audio 
+    // Source audio 
     public AudioSource buttons;
 
-    void Start()
+    void OnEnable()
     {
-        //Passer un bouton en priorité à l'Event system
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(RetryButton);
+        FocusMenu();
+    }
+
+    void Update()
+    {
+        // Empeche tout defocus : si rien n'est selectionne, refocaliser le bouton Retry
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null)
+        {
+            FocusMenu();
+        }
+    }
+
+    private void FocusMenu()
+    {
+        if (EventSystem.current != null && RetryButton != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(RetryButton);
+        }
     }
 
     public void Retry()
     {
-        //On joue le son au click sur le bouton
-        buttons.Play();
+        if (buttons != null) buttons.Play();
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    //Retourner au menu 
+    // Retourner au menu 
     public void MainMenu()
     {
-        //On joue le son au click sur le bouton
-        buttons.Play();
-        sceneFader.FadeTo("MainMenu");
+        if (buttons != null) buttons.Play();
+        Time.timeScale = 1f;
+        if (sceneFader != null)
+        {
+            sceneFader.FadeTo("MainMenu");
+        }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }

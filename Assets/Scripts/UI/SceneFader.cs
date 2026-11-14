@@ -19,31 +19,31 @@ public class SceneFader : MonoBehaviour
         StartCoroutine(FadeOut(scene));
     }
 
-    // De l'écran noir vers la scene
+    // De l'ecran noir vers la scene
     IEnumerator FadeIn()
     {
         float t = 1f;
 
         while (t > 0f)
         {
-            t -= Time.deltaTime;
-            float a = curve.Evaluate(t);
-            image.color = new Color(0f, 0f, 0f, a);
-            yield return 0;
+            t -= Time.unscaledDeltaTime;
+            float a = curve != null ? curve.Evaluate(t) : t;
+            if (image != null) image.color = new Color(0f, 0f, 0f, a);
+            yield return null;
         }
     }
     
-    // De la scène vers l'écran noir
+    // De la scene vers l'ecran noir
     IEnumerator FadeOut(string scene)
     {
         float t = 0f;
 
         while (t < 1f)
         {
-            t += Time.deltaTime;
-            float a = curve.Evaluate(t);
-            image.color = new Color(0f, 0f, 0f, a);
-            yield return 0;
+            t += Time.unscaledDeltaTime;
+            float a = curve != null ? curve.Evaluate(t) : t;
+            if (image != null) image.color = new Color(0f, 0f, 0f, a);
+            yield return null;
         }
 
         SceneManager.LoadScene(scene);

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -14,71 +14,124 @@ public class PressurePlate : MonoBehaviour
     [Header("Indication à (dé)activer")]
     public GameObject indicationPressurePlate;
     
-    [Header("objet à enclencher")]
+    [Header("Objet à enclencher")]
     public GameObject target;
 
     [Header("Son de la plaque")]
     public AudioSource audioSource;
+    public AudioClip clickClip;
 
-    // état interne
+    [Header("Disparition après activation")]
+    [Tooltip("Délai en secondes avant de faire disparaître la plaque après activation")]
+    public float disappearDelay = 0.2f;
+
+    private bool _isActivated = false;
     private bool isPlayerInRange = false;
 
     void Update()
     {
+        if (_isActivated) return;
+
         if (activationType == ActivationType.Manual && isPlayerInRange && Input.GetKeyDown(activationKey))
         {
-            audioSource.Play();
-            TogglePlate();
+            ActivatePlate();
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
+        if (_isActivated) return;
         if (!collision.transform.CompareTag("Player")) return;
 
         if (activationType == ActivationType.Automatic)
         {
-            Vector3 press = new Vector3(0, 0.04f, 0);
-            transform.position -= press;
-            audioSource.Play();
-            TogglePlate();
+            ActivatePlate();
         }
         else // Manual
         {
             isPlayerInRange = true;
-            // "Appuyez sur E"
-            indicationPressurePlate.SetActive(true);
+            if (indicationPressurePlate != null) indicationPressurePlate.SetActive(true);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_isActivated) return;
+        if (!other.CompareTag("Player")) return;
+
+        if (activationType == ActivationType.Automatic)
+        {
+            ActivatePlate();
+        }
+        else
+        {
+            isPlayerInRange = true;
+            if (indicationPressurePlate != null) indicationPressurePlate.SetActive(true);
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
+        if (_isActivated) return;
         if (!collision.transform.CompareTag("Player")) return;
 
-        if (activationType == ActivationType.Automatic)
-        {
-            Vector3 press = new Vector3(0, 0.04f, 0);
-            transform.position += press;
-        }
-        else // Manual
+        if (activationType == ActivationType.Manual)
         {
             isPlayerInRange = false;
-            // masquer le prompt UI
+            if (indicationPressurePlate != null) indicationPressurePlate.SetActive(false);
+        }
+    }
+
+    public void ActivatePlate()
+    {
+        if (_isActivated) return;
+        _isActivated = true;
+
+        // 1. Jouer le son
+        if (audioSource != null)
+        {
+            if (clickClip != null)
+                audioSource.PlayOneShot(clickClip);
+            else
+                audioSource.Play();
+        }
+
+        // 2. Activer la cible (ex: le pont dynamique)
+        if (target != null)
+        {
+            target.SetActive(true);
+        }
+
+        // 3. Masquer l'indication éventuelle
+        if (indicationPressurePlate != null)
+        {
             indicationPressurePlate.SetActive(false);
         }
 
-        //Destroy(gameObject, 0.1f);
+        // 4. Lancer la disparition du parent immédiat (ex: 'Pressure Plate (1)')
+        StartCoroutine(DisappearRoutine());
     }
 
-    public void TogglePlate()
+    private IEnumerator DisappearRoutine()
     {
-        //gameObject.SetActive(!gameObject.activeSelf);
-        indicationPressurePlate.SetActive(!indicationPressurePlate.activeSelf);
-        target.SetActive(true);
-    }
+        // Désactive immédiatement les colliders pour éviter tout re-déclenchement physique
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (Collider col in colliders)
+        {
+            col.enabled = false;
+        }
 
-    public void TriggerAction()
-    {
+        // Petit délai pour laisser le son se jouer et l'enfoncement s'amorcer
+        yield return new WaitForSeconds(disappearDelay);
 
+        // Désactive le parent immédiat sans toucher au parent global (Pressure Plate and Brige)
+        if (transform.parent != null && !transform.parent.name.Contains("Brige") && !transform.parent.name.Contains("Bridge"))
+        {
+            transform.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
-

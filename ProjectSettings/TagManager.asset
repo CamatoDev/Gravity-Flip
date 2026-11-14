@@ -10,6 +10,7 @@ TagManager:
   - BigCoinGold
   - Spike
   - LevelEnd
+  - KillZone
   layers:
   - Default
   - TransparentFX
