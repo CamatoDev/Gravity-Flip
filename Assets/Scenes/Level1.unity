@@ -5818,7 +5818,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You did not complete the levels within the allotted time.
+  m_Text: You did not complete the levels within the allowed time.
 --- !u!222 &453354162
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11027,6 +11027,8 @@ MonoBehaviour:
   indicationPressurePlate: {fileID: 922575749}
   target: {fileID: 2704826779229984739}
   audioSource: {fileID: 852662661}
+  clickClip: {fileID: 0}
+  disappearDelay: 0.2
 --- !u!65 &852662658
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12226,7 +12228,7 @@ GameObject:
   - component: {fileID: 938944281}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Ground
+  m_TagString: KillZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19812,6 +19814,77 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1429003536}
   m_Mesh: {fileID: -176295881450834709, guid: e7aba639979a67444b836235870c1ea7, type: 3}
+--- !u!1 &1433547505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1433547508}
+  - component: {fileID: 1433547507}
+  - component: {fileID: 1433547506}
+  m_Layer: 0
+  m_Name: TurnZone_Corner
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1433547506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433547505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a4e1b119e117e92487e53fc220df339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraAngleForward: 90
+  cameraAngleBackward: 0
+  autoPlayerAngle: 1
+  playerAngleForward: 0
+  playerAngleBackward: -90
+--- !u!65 &1433547507
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433547505}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.30192566, y: 1.0601671, z: 0.83840764}
+  m_Center: {x: -0.15549469, y: -0.30884302, z: 0.03816223}
+--- !u!4 &1433547508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433547505}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -65.38975, y: 3.5856729, z: -0.027493477}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1438022894
 GameObject:
   m_ObjectHideFlags: 0
@@ -26529,7 +26602,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1961491185
 Transform:
   m_ObjectHideFlags: 0
@@ -27363,6 +27436,8 @@ MonoBehaviour:
   indicationPressurePlate: {fileID: 1670538051}
   target: {fileID: 1540597631}
   audioSource: {fileID: 2016620944}
+  clickClip: {fileID: 0}
+  disappearDelay: 0.2
 --- !u!65 &2016620941
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30021,10 +30096,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.27952766
-  m_Height: 1.7932982
+  m_Radius: 0.2795277
+  m_Height: 1.476729
   m_Direction: 1
-  m_Center: {x: 0, y: 0.60826874, z: 0.039197803}
+  m_Center: {x: 0, y: 0.4512336, z: 0}
 --- !u!4 &1543436039139683346
 Transform:
   m_ObjectHideFlags: 0
@@ -31300,12 +31375,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925006459869043763}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -5.0005364, y: 1.74594, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 22, y: 5.25, z: -5.000537}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6796432888172675773}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3714902495415792832
 MonoBehaviour:
@@ -31314,11 +31389,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925006459869043763}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8d645f426f1e48499aa7623d6410408, type: 3}
+  m_Script: {fileID: 11500000, guid: ec6d65674e9b1a536977e8598f8b191d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 6796432888172675773}
+  offset: {x: 0, y: 1.75, z: -5}
+  smoothTime: 0.2
+  rotationSmoothTime: 0.25
+  targetAngleY: 0
 --- !u!1 &3740155989965180661
 GameObject:
   m_ObjectHideFlags: 0
@@ -32029,18 +32109,22 @@ MonoBehaviour:
   turnSound: {fileID: 8300000, guid: b7d7cfebdf3375343a924427fa8f1db6, type: 3}
   walkSpeed: 3.5
   runSpeed: 5
-  rotationSpeed: 100
+  rotationSpeed: 720
   jumpForce: 250
-  countDown: 5
   jumpCoolDown: 1
-  turnCoolDown: 1.5
-  jumpCooling: 0
-  turnCooling: 0
+  instantRotation: 1
+  currentTrackAngle: -90
+  invertAxis: 1
+  lockDepth: 1
+  lockedDepth: 0
   groundCheckRadius: 0.21
   groundCheckOffset: {x: 0, y: -0.08, z: 0.04}
+  edgeFootDistance: 0.25
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  coyoteTime: 0.15
+  jumpCooling: 0
 --- !u!1 &5200619839385145185
 GameObject:
   m_ObjectHideFlags: 0
@@ -32480,6 +32564,8 @@ MonoBehaviour:
   indicationPressurePlate: {fileID: 982174885}
   target: {fileID: 1918141545}
   audioSource: {fileID: 6407857298564796655}
+  clickClip: {fileID: 0}
+  disappearDelay: 0.2
 --- !u!65 &6407857298564796654
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32810,13 +32896,12 @@ Transform:
   m_GameObject: {fileID: 1104004599689727211}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 23, y: 3.50406, z: 0}
+  m_LocalPosition: {x: 23.025, y: 3.50406, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3236420726654588603}
   - {fileID: 6173341605862585461}
-  - {fileID: 3714902495415792831}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!4 &6876369386353176668
@@ -33051,7 +33136,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: bf036a67a865fd141ba28e7c4626a57a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -33900,6 +33985,7 @@ SceneRoots:
   - {fileID: 2053659249223337128}
   - {fileID: 863583447}
   - {fileID: 6796432888172675773}
+  - {fileID: 3714902495415792831}
   - {fileID: 1368273906}
   - {fileID: 1725332662295951393}
   - {fileID: 3248301227880590344}
@@ -33928,6 +34014,7 @@ SceneRoots:
   - {fileID: 1483525599}
   - {fileID: 1143183227}
   - {fileID: 1020007407}
+  - {fileID: 1433547508}
   - {fileID: 1961491185}
   - {fileID: 364186537}
   - {fileID: 1550568199}
