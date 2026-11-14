@@ -8,10 +8,10 @@
 ## 📑 Sommaire
 1. [Phase 1 : Assainissement & Corrections Immédiates des Bugs](#phase-1--assainissement--corrections-immédiates-des-bugs)
 2. [Phase 2 : Contrôleur Joueur 2.5D (Avant/Arrière avec Demi-Tour 180°)](#phase-2--contrôleur-joueur-25d-avantarrière-avec-demi-tour-180)
-3. [Phase 3 : Intégration du Nouveau Personnage 3D & Animations](#phase-3--intégration-du-nouveau-personnage-3d--animations)
-4. [Phase 4 : Système de Plateformes Mobiles & Héritage d'Inertie](#phase-4--système-de-plateformes-mobiles--héritage-dinertie)
+3. [Phase 3 : Intégration du Nouveau Personnage 3D & Animations [ANNULÉ ❌]](#phase-3--intégration-du-nouveau-personnage-3d--animations-annulé-)
+4. [Phase 4 : Système de Plateformes Mobiles & Héritage d'Inertie [IMPLÉMENTÉ ✅]](#phase-4--système-de-plateformes-mobiles--héritage-dinertie-implémenté-)
 5. [Phase 5 : Caméra Dynamique & Triggers de Virage Réversibles (Empty)](#phase-5--caméra-dynamique--triggers-de-virage-réversibles-empty)
-6. [Phase 6 : Mécanique "Gravity Flip" & Impact d'Atterrissage](#phase-6--mécanique-gravity-flip--impact-datterrissage)
+6. [Phase 6 : Mécanique "Gravity Flip" & Impact d'Atterrissage [IMPLÉMENTÉ : IMPACT LOURD ✅]](#phase-6--mécanique-gravity-flip--impact-datterrissage-implémenté--impact-lourd-)
 7. [Phase 7 : Robustesse Stand Festival & Mode Kiosk](#phase-7--robustesse-stand-festival--mode-kiosk)
 
 ---
@@ -285,7 +285,8 @@ public class PlayerController2D : MonoBehaviour
 
 ---
 
-# Phase 3 : Intégration du Nouveau Personnage 3D & Animations
+# Phase 3 : Intégration du Nouveau Personnage 3D & Animations [ANNULÉ ❌]
+> *Note : Phase annulée à la demande de l'utilisateur afin de conserver le modèle actuel et de prioriser les fonctionnalités critiques du festival.*
 
 ### 3.1 Hiérarchie Propre du Joueur
 Pour séparer la physique du modèle graphique :
@@ -312,7 +313,7 @@ Player (GameObject racine)
 
 ---
 
-# Phase 4 : Système de Plateformes Mobiles & Héritage d'Inertie
+# Phase 4 : Système de Plateformes Mobiles & Héritage d'Inertie [IMPLÉMENTÉ : ENTRAÎNEMENT PAR VÉLOCITÉ PHYSIQUE ✅]
 
 ### 4.1 Script Réutilisable `MovingPlatform.cs`
 Créez `Assets/Scripts/Level/MovingPlatform.cs` :
@@ -525,7 +526,7 @@ public class CameraTurnZone : MonoBehaviour
 
 ---
 
-# Phase 6 : Mécanique "Gravity Flip" & Impact d'Atterrissage
+# Phase 6 : Mécanique "Gravity Flip" & Impact d'Atterrissage [IMPLÉMENTÉ : IMPACT D'ATTERRISSAGE LOURD ✅]
 
 ### 6.1 Script `PlayerGravityFlip.cs`
 Créez `Assets/Scripts/Player/PlayerGravityFlip.cs` :

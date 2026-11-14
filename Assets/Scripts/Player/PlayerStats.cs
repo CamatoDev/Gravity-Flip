@@ -29,6 +29,14 @@ public class PlayerStats : MonoBehaviour
     public AudioSource spike;
     public AudioSource pain;
 
+    [Header("Audio Settings (Bonus Life & Big Coin)")]
+    [Range(0f, 1f)] public float bonusLifeVolume = 0.65f;
+    [Range(0.5f, 2f)] public float bonusLifeMinPitch = 0.9f;
+    [Range(0.5f, 2f)] public float bonusLifeMaxPitch = 1.15f;
+    [Range(0f, 1f)] public float bigCoinVolume = 0.7f;
+    [Range(0.5f, 2f)] public float bigCoinMinPitch = 0.9f;
+    [Range(0.5f, 2f)] public float bigCoinMaxPitch = 1.15f;
+
     [Header("Others")]
     public bool isFalled = false;
     public bool isLevelEnded = false;
@@ -80,27 +88,47 @@ public class PlayerStats : MonoBehaviour
 
         if (collision.transform.CompareTag("coinGold"))
         {
-            Debug.Log("Le joueur a touche la piece d'or.");
-            Destroy(collision.transform.gameObject, 0.2f);
-            Debug.Log("+ 10 points !");
+            GoldCoin coin = collision.GetComponent<GoldCoin>();
+            if (coin != null)
+            {
+                coin.Collect();
+            }
+            else
+            {
+                Destroy(collision.transform.gameObject, 0.2f);
+            }
             currentMoney += 10f;
         }
 
         if (collision.transform.CompareTag("BonusLife"))
         {
-            bonusLife.Play();
-            Debug.Log("Le joueur a touche la vie bonus");
-            Destroy(collision.transform.gameObject, 0.2f);
-            Debug.Log("+ 1 vie !");
+            if (bonusLife != null)
+            {
+                bonusLife.pitch = Random.Range(bonusLifeMinPitch, bonusLifeMaxPitch);
+                bonusLife.volume = bonusLifeVolume;
+                bonusLife.Play();
+            }
+            Renderer[] renderers = collision.GetComponentsInChildren<Renderer>();
+            foreach (var r in renderers) { if (r != null) r.enabled = false; }
+            Collider col = collision.GetComponent<Collider>();
+            if (col != null) col.enabled = false;
+            Destroy(collision.transform.gameObject, 1.5f);
             currentLife += 1f;
         }
 
         if (collision.transform.CompareTag("BigCoinGold"))
         {
-            bigGoldCoin.Play();
-            Debug.Log("Le joueur a touche la piece d'or geante.");
-            Destroy(collision.transform.gameObject, 0.2f);
-            Debug.Log("+ 50 points !");
+            if (bigGoldCoin != null)
+            {
+                bigGoldCoin.pitch = Random.Range(bigCoinMinPitch, bigCoinMaxPitch);
+                bigGoldCoin.volume = bigCoinVolume;
+                bigGoldCoin.Play();
+            }
+            Renderer[] renderers = collision.GetComponentsInChildren<Renderer>();
+            foreach (var r in renderers) { if (r != null) r.enabled = false; }
+            Collider col = collision.GetComponent<Collider>();
+            if (col != null) col.enabled = false;
+            Destroy(collision.transform.gameObject, 1.5f);
             currentMoney += 50f;
         }
 

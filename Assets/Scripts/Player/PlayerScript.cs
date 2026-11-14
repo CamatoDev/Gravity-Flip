@@ -55,6 +55,47 @@ public class PlayerScript : MonoBehaviour
     private bool jumpRequested = false;
     private float coyoteCounter = 0f;
     private Quaternion targetRotation;
+    private Vector3 _externalMomentum = Vector3.zero;
+    private float _hardLandPauseTimer = 0f;
+    private MonoBehaviour _platformSource;
+    private Vector3 _platformVelocity = Vector3.zero;
+
+    /// <summary>
+    /// Synchronise la vélocité physique transmise par une plateforme mobile (élimine les conflits d'interpolation)
+    /// </summary>
+    public void SetPlatformVelocity(Vector3 vel, MonoBehaviour source)
+    {
+        _platformVelocity = vel;
+        _platformSource = source;
+    }
+
+    /// <summary>
+    /// Réinitialise la vélocité de plateforme uniquement si la demande émane de la source active
+    /// </summary>
+    public void ClearPlatformVelocity(MonoBehaviour source)
+    {
+        if (_platformSource == source)
+        {
+            _platformVelocity = Vector3.zero;
+            _platformSource = null;
+        }
+    }
+
+    /// <summary>
+    /// Fige temporairement les déplacements pendant la réception d'un atterrissage lourd
+    /// </summary>
+    public void TriggerHardLandingPause(float duration)
+    {
+        _hardLandPauseTimer = duration;
+    }
+
+    /// <summary>
+    /// Permet aux plateformes mobiles d'injecter de l'inertie lors d'un saut ou d'une séparation
+    /// </summary>
+    public void AddExternalMomentum(Vector3 momentum)
+    {
+        _externalMomentum += momentum;
+    }
 
     void Awake()
     {
@@ -131,6 +172,12 @@ public class PlayerScript : MonoBehaviour
         // 1. Lecture de l'input horizontal (-1 = gauche/arrière, +1 = droite/avant)
         float rawHorizontal = Input.GetAxisRaw("Horizontal");
         inputMove = invertAxis ? -rawHorizontal : rawHorizontal;
+
+        if (_hardLandPauseTimer > 0f)
+        {
+            _hardLandPauseTimer -= Time.deltaTime;
+            inputMove = 0f;
+        }
 
         // 2. Demi-tour 180° selon le sens d'avancement (instantané uniquement au changement de direction)
         if (inputMove > 0.05f)
@@ -257,23 +304,35 @@ public class PlayerScript : MonoBehaviour
         // 1. Détection physique du sol multi-points (Anti-Blocage Bordure & Joints)
         GroundCheck();
 
-        // 2. Calcul de la vitesse désirée
+        // 2. Calcul de la vitesse désirée avec héritage d'inertie
         bool isSprinting = Input.GetKey(KeyCode.LeftShift) || Input.GetButton("Sprint");
         float currentSpeed = isSprinting ? runSpeed : walkSpeed;
 
-        // Vitesse rigoureusement alignée sur l'axe de piste
+        // Vitesse rigoureusement alignée sur l'axe de piste + entraînement plateforme + inertie
         Vector3 trackForward = Quaternion.Euler(0f, currentTrackAngle, 0f) * Vector3.forward;
         float moveMagnitude = (inputMove > 0.05f) ? currentSpeed : (inputMove < -0.05f ? -currentSpeed : 0f);
-        Vector3 moveVelocity = trackForward * moveMagnitude;
+        Vector3 moveVelocity = (_hardLandPauseTimer > 0f) ? Vector3.zero : ((trackForward * moveMagnitude) + _platformVelocity + _externalMomentum);
 
-        // 3. Application de la vélocité horizontale (la profondeur est verrouillée nativement par les RigidbodyConstraints sans toucher à rb.position)
-        if (Mathf.Abs(trackForward.x) > 0.5f)
+        // Amortissement progressif de l'élan horizontal dans les airs ou au sol
+        if (!isGrounded && coyoteCounter <= 0f)
         {
-            rb.velocity = new Vector3(moveVelocity.x, rb.velocity.y, 0f);
+            _externalMomentum = Vector3.MoveTowards(_externalMomentum, Vector3.zero, 6f * Time.fixedDeltaTime);
         }
         else
         {
-            rb.velocity = new Vector3(0f, rb.velocity.y, moveVelocity.z);
+            _externalMomentum = Vector3.MoveTowards(_externalMomentum, Vector3.zero, 25f * Time.fixedDeltaTime);
+        }
+
+        // 3. Application de la vélocité (maintient l'adhérence verticale et l'entraînement horizontal sans conflit PhysX)
+        float verticalVelocity = (isGrounded && _platformVelocity.y != 0f) ? _platformVelocity.y : rb.velocity.y;
+
+        if (Mathf.Abs(trackForward.x) > 0.5f)
+        {
+            rb.velocity = new Vector3(moveVelocity.x, verticalVelocity, 0f);
+        }
+        else
+        {
+            rb.velocity = new Vector3(0f, verticalVelocity, moveVelocity.z);
         }
 
         // 4. Exécution du saut avec Coyote Time
