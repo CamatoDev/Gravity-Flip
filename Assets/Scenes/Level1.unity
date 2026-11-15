@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 8e1967ef8abb5aa1ba15740a814ae51d, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -30713,6 +30713,12 @@ MonoBehaviour:
   pickUp: {fileID: 7599622850096904231}
   spike: {fileID: 6999296657899410870}
   pain: {fileID: 7656767276188921384}
+  bonusLifeVolume: 0.65
+  bonusLifeMinPitch: 0.9
+  bonusLifeMaxPitch: 1.15
+  bigCoinVolume: 0.7
+  bigCoinMinPitch: 0.9
+  bigCoinMaxPitch: 1.15
   isFalled: 0
   isLevelEnded: 0
   spikeDamage: 1
